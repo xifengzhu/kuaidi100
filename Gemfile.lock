@@ -1,0 +1,38 @@
+PATH
+  remote: .
+  specs:
+    kuaidi100 (0.1.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    addressable (2.5.2)
+      public_suffix (>= 2.0.2, < 4.0)
+    crack (0.4.3)
+      safe_yaml (~> 1.0.0)
+    hashdiff (0.3.7)
+    httparty (0.16.2)
+      multi_xml (>= 0.5.2)
+    minitest (5.11.3)
+    multi_xml (0.6.0)
+    public_suffix (3.0.2)
+    rake (10.5.0)
+    safe_yaml (1.0.4)
+    webmock (2.3.2)
+      addressable (>= 2.3.6)
+      crack (>= 0.3.2)
+      hashdiff
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bundler (~> 1.16)
+  httparty (~> 0.15)
+  kuaidi100!
+  minitest (~> 5)
+  rake (~> 10.0)
+  webmock (~> 2.3)
+
+BUNDLED WITH
+   1.16.3
