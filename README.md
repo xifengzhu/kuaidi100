@@ -1,18 +1,12 @@
-# Kuiaidi100
+# Kuaidi100
 
-A simple Kuaidi100 ruby gem, offer query the express track in real time and subscribe to the dynamic notification api.
+A simple gem provides Kuaidi100 enterprise-edition APIs, includes query the express track and subscribe notification.
 
 [![Build Status](https://travis-ci.org/xifengzhu/kuaidi100.svg?branch=master)](https://travis-ci.org/xifengzhu/kuaidi100)
 
 ## Installation
 
 Add this line to your Gemfile:
-
-```ruby
-gem 'kuaidi100'
-```
-
-or development version
 
 ```ruby
 gem 'kuaidi100', :github => 'xifengzhu/kuaidi100'
@@ -40,12 +34,22 @@ Kuaidi100.callbackurl = "http://${domain}.com"
 
 ### APIs
 
+Kuaidi100 gem supports express track query and subscribe push from kuaidi100.
+
 ** Get official document from kuaidi100 for detailed request params and return fields**
 
-#### Express Track Real-time Query
+Common Kuaidi100 Express Code：
 
-Kuaidi100 supports express track Real-time Query and subscribe notification from kuaidi100.
+```
+"tiantian"=>"天天",
+"shentong"=>"申通",
+"yuantong"=>"圆通",
+"shunfeng"=>"顺丰",
+"debangwuliu"=>"德邦",
+"yunda"=>"韵达"
+```
 
+#### Express Track Query
 
 ```ruby
 result = Kuaidi100::Service.logistic_traces("765698489802", "shunfeng")
@@ -72,7 +76,7 @@ result = Kuaidi100::Service.logistic_traces("765698489802", "shunfeng")
 #    }
 ```
 
-#### Subscribe Notification
+#### Subscribe Push from Kuaidi100
 
 ```ruby
 result = Kuaidi100::Service.subscribe("765698489802", "shunfeng")
@@ -80,7 +84,29 @@ result = Kuaidi100::Service.subscribe("765698489802", "shunfeng")
 #       "result":true,
 #       "returnCode":"200",
 #       "message":"提交成功"
-#     }
+#    }
+```
+
+#### Notify Process
+
+A simple example of processing notify.
+
+```ruby
+# config/routes.rb
+post "notify" => "express#notify"
+
+# app/controllers/express_controller.rb
+
+def notify
+  if Kuaidi100::Sign.callback_verify?(params)
+
+    # find your logistic and update it
+
+    render json: { result: true, returnCode: "200", message: "成功" }
+  else
+    render json: { result: false, returnCode: "500", message: "签名失败" }, status: 500
+  end
+end
 ```
 
 ## Contributing
