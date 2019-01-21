@@ -52,7 +52,7 @@ Common Kuaidi100 Express Code：
 #### Express Track Query
 
 ```ruby
-result = Kuaidi100::Service.logistic_traces("765698489802", "shunfeng")
+result = Kuaidi100::Service.logistic_traces("765698489802", "shunfeng", {mobiletelephone: '132xxxxxxxx'})
 # => {
 #      "message"=>"ok",
 #      "nu"=>"765720722994",
@@ -75,17 +75,19 @@ result = Kuaidi100::Service.logistic_traces("765698489802", "shunfeng")
 #      }
 #    }
 ```
+注： mobiletelephone 顺丰快递为必填参数
 
 #### Subscribe Push from Kuaidi100
 
 ```ruby
-result = Kuaidi100::Service.subscribe("765698489802", "shunfeng")
+result = Kuaidi100::Service.subscribe("765698489802", "shunfeng", "shunfeng", {mobiletelephone: '132xxxxxxxx'})
 # => {
 #       "result":true,
 #       "returnCode":"200",
 #       "message":"提交成功"
 #    }
 ```
+注： mobiletelephone 顺丰快递为必填参数
 
 #### Notify Process
 
