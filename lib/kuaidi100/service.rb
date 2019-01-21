@@ -4,16 +4,17 @@ module Kuaidi100
   class Service
     include ::HTTParty
 
-    base_uri 'http://poll.kuaidi100.com'.freeze
+    base_uri 'https://poll.kuaidi100.com'.freeze
 
     def self.logistic_traces(express_no, express_code, options = {})
 
       params = {
-        "com": express_code,                        # 快递公司编码
-        "num": express_no,                          # 快递单号
-        "from": options.delete(:from) || "",        # 出发地城市(可空)
-        "to": options.delete(:to) || "",            # 目的地城市（可空）
-        "resultv2": options.delete(:resultv2) || 0   # 添加此字段表示开通行政区域解析功能
+        com: express_code,                        # 快递公司编码
+        num: express_no,                          # 快递单号
+        mobiletelephone: options.delete(:mobiletelephone) || "", # 寄件人或收件人手机号（顺丰单号必填）
+        from: options.delete(:from) || "",        # 出发地城市(可空)
+        to: options.delete(:to) || "",            # 目的地城市（可空）
+        resultv2: options.delete(:resultv2) || 0   # 添加此字段表示开通行政区域解析功能
       }
 
       payload = {
@@ -35,6 +36,7 @@ module Kuaidi100
       params = {
         company: express_code,
         number: express_no,
+        mobiletelephone: options.delete(:mobiletelephone) || "", # 寄件人或收件人手机号（顺丰单号必填）
         from: options.delete(:from) || "",
         to: options.delete(:to) || "",
         key: Kuaidi100.key,
