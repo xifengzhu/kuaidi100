@@ -80,7 +80,7 @@ result = Kuaidi100::Service.logistic_traces("765698489802", "shunfeng", {mobilet
 #### Subscribe Push from Kuaidi100
 
 ```ruby
-result = Kuaidi100::Service.subscribe("765698489802", "shunfeng", "shunfeng", {mobiletelephone: '132xxxxxxxx'})
+result = Kuaidi100::Service.subscribe("765698489802", "shunfeng", {mobiletelephone: '132xxxxxxxx'})
 # => {
 #       "result":true,
 #       "returnCode":"200",
