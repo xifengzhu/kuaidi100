@@ -11,7 +11,7 @@ module Kuaidi100
       params = {
         com: express_code,                        # 快递公司编码
         num: express_no,                          # 快递单号
-        mobiletelephone: options.delete(:mobiletelephone) || "", # 寄件人或收件人手机号（顺丰单号必填）
+        phone: options.delete(:mobiletelephone) || "", # 寄件人或收件人手机号（顺丰单号必填）
         from: options.delete(:from) || "",        # 出发地城市(可空)
         to: options.delete(:to) || "",            # 目的地城市（可空）
         resultv2: options.delete(:resultv2) || 0   # 添加此字段表示开通行政区域解析功能
@@ -36,13 +36,13 @@ module Kuaidi100
       params = {
         company: express_code,
         number: express_no,
-        mobiletelephone: options.delete(:mobiletelephone) || "", # 寄件人或收件人手机号（顺丰单号必填）
         from: options.delete(:from) || "",
         to: options.delete(:to) || "",
         key: Kuaidi100.key,
         parameters: {
           "callbackurl": Kuaidi100.callbackurl,
           "salt": Kuaidi100.salt,
+          "mobiletelephone": options.delete(:mobiletelephone) || "", # 寄件人或收件人手机号（顺丰单号必填）
           "resultv2": "0",
           "autoCom": "0",
           "interCom": "0",
