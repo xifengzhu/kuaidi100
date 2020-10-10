@@ -9,7 +9,7 @@ A simple gem provides Kuaidi100 enterprise-edition APIs, includes query the expr
 Add this line to your Gemfile:
 
 ```ruby
-gem 'kuaidi100', :github => 'xifengzhu/kuaidi100'
+gem 'kuaidi100', github: 'xifengzhu/kuaidi100', branch: 'feature/support-multi-client'
 ```
 
 And then execute:
@@ -19,18 +19,6 @@ $ bundle
 ```
 
 ## Usage
-
-### Config
-
-Create `config/initializers/kuaidi100.rb` and put following configurations into it.
-
-```ruby
-# required
-Kuaidi100.key = 'key'
-Kuaidi100.customer = 'customer_id'
-Kuaidi100.salt = "salt"
-Kuaidi100.callbackurl = "http://${domain}.com"
-```
 
 ### APIs
 
@@ -49,10 +37,21 @@ Common Kuaidi100 Express Code：
 "yunda"=>"韵达"
 ```
 
+#### Init Client
+
+```ruby
+client = Kuaidi100::Client.new({
+  key: 'xxx',
+  customer: 'xxx',
+  salt: 'xxx',
+  callbackurl: 'http://${domain}/apps/${app_id}/express/notify'
+})
+```
+
 #### Express Track Query
 
 ```ruby
-result = Kuaidi100::Service.logistic_traces("765698489802", "shunfeng", {mobiletelephone: '132xxxxxxxx'})
+result = client.query('765720722994', "shunfeng", { mobiletelephone: '132xxxxxxx' })
 # => {
 #      "message"=>"ok",
 #      "nu"=>"765720722994",
@@ -80,7 +79,7 @@ result = Kuaidi100::Service.logistic_traces("765698489802", "shunfeng", {mobilet
 #### Subscribe Push from Kuaidi100
 
 ```ruby
-result = Kuaidi100::Service.subscribe("765698489802", "shunfeng", {mobiletelephone: '132xxxxxxxx'})
+result = client.subscribe('765720722994', "shunfeng", { mobiletelephone: '132xxxxxxxx' })
 # => {
 #       "result":true,
 #       "returnCode":"200",
@@ -95,12 +94,15 @@ A simple example of processing notify.
 
 ```ruby
 # config/routes.rb
-post "notify" => "express#notify"
+post "apps/:id/express/notify" => "express#notify"
 
 # app/controllers/express_controller.rb
 
 def notify
-  if Kuaidi100::Sign.callback_verify?(params)
+  # find the business model with id and get the salt
+  app = Bean::Application.find(params[:id])
+
+  if Kuaidi100::Sign.callback_verify?(params, app.salt)
 
     # find your logistic and update it
 
